@@ -24,19 +24,19 @@ const addTextWatermarkToImage = async function(inputFile, outputFile, text) {
 
 const addImageWatermarkToImage = async function(inputFile, outputFile, watermarkFile) {
   try {
-  const image = await Jimp.read(inputFile);
-  const watermark = await Jimp.read(watermarkFile);
-  const x = image.getWidth() / 2 - watermark.getWidth() / 2;
-  const y = image.getHeight() / 2 - watermark.getHeight() / 2;
+    const image = await Jimp.read(inputFile);
+    const watermark = await Jimp.read(watermarkFile);
+    const x = image.getWidth() / 2 - watermark.getWidth() / 2;
+    const y = image.getHeight() / 2 - watermark.getHeight() / 2;
 
-  image.composite(watermark, x, y, {
-    mode: Jimp.BLEND_SOURCE_OVER,
-    opacitySource: 0.5,
-  });
-  await image.quality(100).writeAsync(outputFile);
+    image.composite(watermark, x, y, {
+      mode: Jimp.BLEND_SOURCE_OVER,
+      opacitySource: 0.5,
+    });
+    await image.quality(100).writeAsync(outputFile);
 
-  console.log('Success!');
-  startApp();
+    console.log('Success!');
+    startApp();
   }
   catch(error){
     console.log('Something went wrong... Try again');
@@ -80,10 +80,8 @@ const startApp = async () => {
     }]);
     options.watermarkText = text.value;
 
-    addTextWatermarkToImage('./img/' + options.inputImage, './img/' + prepareOutputFilename(options.inputImage), options.watermarkText);
- 
-  }
-  else {
+    addTextWatermarkToImage('./img/' + options.inputImage, './img/' + prepareOutputFilename(options.inputImage), options.watermarkText); 
+  } else {
     const image = await inquirer.prompt([{
       name: 'filename',
       type: 'input',
@@ -93,7 +91,6 @@ const startApp = async () => {
     options.watermarkImage = image.filename;
 
     addImageWatermarkToImage('./img/' + options.inputImage,'./img/' + prepareOutputFilename(options.inputImage), './img/' + options.watermarkImage);
-
   }
 }
 
